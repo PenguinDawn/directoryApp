@@ -1,67 +1,88 @@
+import { Search } from 'lucide-react-native';
+import { FlatList, Pressable, StyleSheet, TextInput } from 'react-native';
+
+import Card from '@/components/Card';
+import Header from '@/components/Header';
+import { View } from '@/components/Themed';
 import { useRouter } from 'expo-router';
-import { Pressable, StyleSheet, Text, TextInput, View } from 'react-native';
-export default function LoginScreen() {
+import { useEffect, useState } from 'react';
+
+export default function Directory() {
   const router = useRouter();
+  
+   useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch('https://nyc.cloud.appwrite.io/v1/storage/buckets/68f8ed13003a261f4bcb/files/68f8efae0034f5b9beef/view?project=68f8ed01002593f33953&mode=admin');
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        const json = await response.json();
+        setData(json);
+        setNewData(json);
+      } catch (error) {
+      
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, []); 
+
+  const [data, setData] = useState();
+  const [newData, setNewData] = useState();
+  const [loading, setLoading] = useState(true);
+  const [filter, setFilter] = useState("");
+
+
+  const sendFilter = () => {
+    setData(newData.filter((person) => (person.firstName + " " + person.lastName).slice(0, filter.length).toLowerCase() == filter.toLowerCase()))
+  };
+
+  const entering = (event) => {
+    if (event.key === "Enter") {
+        event.preventDefault(); // Prevent default form submission
+        sendFilter(); // Call the filter function
+    }
+  }
+
   return (
-    <View style={styles.container}>
-
-      <View style={[styles.container, {alignItems: "center", justifyContent: "center", gap: 15}]}>
-      <Text style={styles.nameStyle}>Login</Text>
-       <TextInput style={styles.search} placeholder='Username'></TextInput>
-       <TextInput style={styles.search} placeholder='Password'></TextInput>
-        <Pressable style={styles.press} onPress={() => router.navigate('/directory')}>
-          <Text style={styles.pressText}>Submit</Text>
+    <FlatList
+      style={styles.flatListed}
+      ListHeaderComponent={
+        <View style={styles.container}>
+          <Header />
+        <View style={styles.search}>
+        <Pressable onPress={sendFilter} >
+          <Search size={18} />
         </Pressable>
+        <TextInput placeholder='Search' onKeyPress={entering} value={filter} onChangeText={(text) => {setFilter(text)}}></TextInput>
+        </View>
+        <View style={styles.separator} />
       </View>
-    </View>
-  );
-}
+      }
+      data={data}
+      keyExtractor={(item) => item.name}
+      renderItem={({item}) => <Pressable
+      onPress={() => 
+          router.push({
+            pathname: `/(tabs)/[name]`,
+            params: { name: item.firstName + " " + item.lastName, office: item.officer, status: item.relationshipStatus, imgsrc: item.imageURL, phone: item.phone, email: item.email, classCol: item.classification, showEmail: item.showEmail, showPhone: item.showPhone}
+          })
+      }
+      ><Card imgsrc={item.imageURL} name={item.firstName + " " + item.lastName} office={item.officer} status={item.relationshipStatus}/> </Pressable>}>
+    </FlatList>
+)}
 
-
- 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#330365",
-},
-  separator: {
-      height: 1,
-      width: '100%',
-      backgroundColor: "white",
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: "black",
   },
-    listed: {
-        flexDirection: 'column',
-        gap: 8,
-        fontSize: 18,
-        width: '50%',
-        marginInline: "auto",
-    },
-    textStyle: {
-        fontSize: 16,
-        color: "white",
-    },
-    press: {
-      padding: 5,
-      backgroundColor: "#d29cefff",
-        borderRadius: 8,
-        cursor: "pointer",
-        width: "30%",
-        alignItems: "center",
-        marginTop: 10,
-    },
-    pressText: {
-      color: "black",
-      fontWeight: "bold",
-      fontSize: 16,
-    },
-    nameStyle: {
-        fontSize: 36,
-        color: "white",
-        fontWeight: "bold",
-        letterSpacing: 1,
-         marginBottom: 10,
-    },
-    search: {
+  search: {
     backgroundColor: "#fff",
     flexDirection: "row",
     borderRadius: 8,
@@ -69,9 +90,17 @@ const styles = StyleSheet.create({
     borderWidth: 4,
     gap: 3,
     padding: 3,
-    color: "#2c06d7ff",
-    fontSize: 16,
-
+    marginTop: 30,
+  },
+  separator: {
+    marginVertical: 30,
+    height: 1,
+    width: '80%',
+    backgroundColor: "white",
+  },
+  flatListed: {
+    backgroundColor: "black",
   },
 
-})
+  
+});

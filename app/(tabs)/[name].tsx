@@ -6,7 +6,7 @@ import { Image, Linking, Pressable, StyleSheet, Text, View } from 'react-native'
 
 export default function NameScreen() {
 
-    const {name, office, status, imgsrc, phone, email, classCol } = useLocalSearchParams();
+    const {name, office, status, imgsrc, phone, email, classCol, showEmail, showPhone } = useLocalSearchParams();
     const mailtoUrl = `mailto:${email}`;
   
     const openEmail = async () => {
@@ -41,7 +41,7 @@ export default function NameScreen() {
     <View style={styles.container}>
       <Header />
       <View style={[styles.container, {alignItems: "center"}]}>
-      <Pressable style={[styles.goBackDirectory]} onPress={() => router.navigate('/directory')}>
+      <Pressable style={[styles.goBackDirectory]} onPress={() => router.navigate('/')}>
       
             <ChevronLeft size={32} style={styles.chevvy}/>
             <Text style={styles.goBack}>Go Back To Directory</Text>
@@ -49,12 +49,17 @@ export default function NameScreen() {
       </Pressable>
       
       <View style={[styles.card]}>
+
         <View style={styles.imgStyle}>
-            <Image src={imgsrc}/>
+            <Image style={styles.imgWidth} source={{ uri: imgsrc.toString()}} />
         </View>
         <View style={styles.listed}>
             <Text style={styles.nameStyle}>{name}</Text>
-            <Text style={[styles.textStyle, styles.officeText]}>{office}</Text>
+            {
+              office != undefined && 
+              <Text style={[styles.textStyle, styles.officeText]}>{office}</Text>
+            }
+            
             <Text style={styles.textStyle}>{classCol}</Text>
             <View style={styles.singleLine}>
                 <Heart fill="white" stroke="white" size={20} />
@@ -64,9 +69,13 @@ export default function NameScreen() {
 
              <View style={styles.separator} />
 
-              <Pressable onPress={openTelephone}><Text style={styles.textStyle}>{phone}</Text></Pressable>
-             
+             {showPhone &&
+             <Pressable onPress={openTelephone}><Text style={styles.textStyle}>{phone}</Text></Pressable>
+             }
+
+             {showEmail &&
              <Pressable onPress={openEmail}><Text style={styles.textStyle}>{email}</Text></Pressable>
+             }
         
         </View>
     </View>
@@ -82,7 +91,7 @@ export default function NameScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#330365",
+    backgroundColor: "black",
 },
   separator: {
       height: 1,
@@ -122,9 +131,8 @@ const styles = StyleSheet.create({
     },
     imgStyle: {
         borderRadius: 5,
-        backgroundColor: 'gray',
         width: "50%",
-        height: "30%",
+        height: "40%",
         marginInline: "auto",
     },
  
@@ -153,7 +161,7 @@ const styles = StyleSheet.create({
       justifyContent: "flex-start",
       width: "100%",
       height: "10%",
-      backgroundColor: "#330365",
+      backgroundColor: "black",
       color: "white",
       paddingLeft: 20,
       paddingBottom: 5,
@@ -161,6 +169,10 @@ const styles = StyleSheet.create({
     },
     chevvy: {
       marginTop: 3,
+    },
+    imgWidth: {
+        width: "100%",
+        height: "100%",
     },
 
 })

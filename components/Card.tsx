@@ -12,11 +12,13 @@ const Card = ({imgsrc, name, office, status}: CardProps) => {
   return (
     <View style={[styles.card]}>
         <View style={styles.imgStyle}>
-            <Image src={imgsrc} style={styles.imgWidth}/>
+            <Image style={styles.imgWidth} source={{ uri: imgsrc}} />
         </View>
         <View style={styles.listed}>
             <Text style={styles.nameStyle}>{name}</Text>
-            <Text style={[styles.textStyle, styles.officeText]}>{office}</Text>
+            {office != undefined &&
+                <Text style={[styles.textStyle, styles.officeText]}>{office}</Text>
+            }
             <View style={styles.singleLine}>
                 <Heart fill="white" stroke="white" size={20} />
                 <Text style={styles.textStyle}>{status}</Text>
@@ -63,7 +65,7 @@ const styles = StyleSheet.create({
     },
     imgStyle: {
         borderRadius: 5,
-        backgroundColor: 'gray',
+
         width: "50%",
         height: "100%"
     },

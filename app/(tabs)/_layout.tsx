@@ -30,7 +30,7 @@ export default function TabLayout() {
         headerShown: false,
       }}>
       <Tabs.Screen
-        name="directory"
+        name="index"
         options={{
           title: 'Directory',
           tabBarIcon: ({ color }) => <TabBarIcon name="users" color={color} />,
@@ -38,10 +38,6 @@ export default function TabLayout() {
             <Text style={{ color, fontSize: focused ? 14 : 12 }}>Directory</Text>
           ),
           }}
-      />
-      <Tabs.Screen
-        name="index"
-        options={{ tabBarStyle: { display: 'none' }, href: null }}
       />
       <Tabs.Screen
         name="[name]"
