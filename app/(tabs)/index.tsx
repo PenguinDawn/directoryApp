@@ -1,5 +1,5 @@
 import { Search } from 'lucide-react-native';
-import { FlatList, Pressable, StyleSheet, TextInput } from 'react-native';
+import { FlatList, Pressable, StyleSheet, Text, TextInput } from 'react-native';
 
 import Card from '@/components/Card';
 import Header from '@/components/Header';
@@ -37,7 +37,7 @@ export default function Directory() {
 
 
   const sendFilter = () => {
-    setData(newData.filter((person) => (person.firstName).slice(0, filter.length).toLowerCase() == filter.toLowerCase().trim() || (person.lastName).slice(0, filter.length).toLowerCase() == filter.toLowerCase().trim()))
+    setData(newData.filter((person) => (person.firstName).toLowerCase().includes(filter.toLowerCase().trim()) || (person.lastName).toLowerCase().includes(filter.toLowerCase().trim())))
   };
 
   const entering = (event) => {
@@ -64,6 +64,11 @@ export default function Directory() {
       }
       data={data}
       keyExtractor={(item) => item.name}
+      ListEmptyComponent={
+        <View style={[styles.viewed, {backgroundColor: "black"}]}>
+          <Text style={{color: "white", fontWeight: "bold", fontSize: 20}}>No students found :(</Text>
+        </View>
+      }
       renderItem={({item}) => <Pressable
       onPress={() => 
           router.push({
@@ -101,6 +106,9 @@ const styles = StyleSheet.create({
   flatListed: {
     backgroundColor: "black",
   },
+  viewed: {
+    alignItems: "center",
+  }
 
   
 });
