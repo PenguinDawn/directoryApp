@@ -37,6 +37,10 @@ export default function Directory() {
 
 
   const sendFilter = () => {
+    if(filter === " ") {
+      setData(newData);
+      return;
+    }
     setData(newData.filter((person) => (person.firstName).toLowerCase().includes(filter.toLowerCase().trim()) || (person.lastName).toLowerCase().includes(filter.toLowerCase().trim())))
   };
 
