@@ -61,7 +61,7 @@ export default function Directory() {
         <Pressable onPress={sendFilter} >
           <Search size={18} />
         </Pressable>
-        <TextInput placeholder='Search' onKeyPress={entering} value={filter} onChangeText={(text) => {setFilter(text)}}></TextInput>
+        <TextInput placeholder='Search' onKeyPress={entering} value={filter} onChangeText={(text) => {setFilter(text)}} clearButtonMode="always"></TextInput>
         </View>
         <View style={styles.separator} />
       </View>
