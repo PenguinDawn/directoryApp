@@ -37,7 +37,7 @@ export default function Directory() {
 
 
   const sendFilter = () => {
-    setData(newData.filter((person) => (person.firstName).slice(0, filter.length).toLowerCase() == filter.toLowerCase() || (person.lastName).slice(0, filter.length).toLowerCase() == filter.toLowerCase()))
+    setData(newData.filter((person) => (person.firstName).slice(0, filter.length).toLowerCase() == filter.toLowerCase().trim() || (person.lastName).slice(0, filter.length).toLowerCase() == filter.toLowerCase().trim()))
   };
 
   const entering = (event) => {
