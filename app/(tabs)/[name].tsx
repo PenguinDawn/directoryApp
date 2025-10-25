@@ -111,6 +111,7 @@ const styles = StyleSheet.create({
         gap: 5,
         marginInline: 'auto',
         marginBottom: 25,
+        borderRadius: 5,
     },
     listed: {
         flexDirection: 'column',
@@ -118,9 +119,10 @@ const styles = StyleSheet.create({
         fontSize: 18,
         width: '60%',
         marginInline: "auto",
+        
     },
     textStyle: {
-        fontSize: 14,
+        fontSize: 16,
         color: "white",
     },
     nameStyle: {
@@ -141,6 +143,7 @@ const styles = StyleSheet.create({
         alignItems: "center",
         gap: 3,
         marginLeft: 2,
+        marginBottom: 2,
     },
     officeText: {
         backgroundColor: "#330365",
@@ -173,6 +176,7 @@ const styles = StyleSheet.create({
     imgWidth: {
         width: "100%",
         height: "100%",
+        borderRadius: 5,
     },
 
 })

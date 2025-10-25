@@ -65,11 +65,11 @@ const styles = StyleSheet.create({
     },
     imgStyle: {
         borderRadius: 5,
-
         width: "50%",
         height: "100%"
     },
     imgWidth: {
+         borderRadius: 5,
         width: "100%",
         height: "100%",
     },
