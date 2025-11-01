@@ -1,6 +1,9 @@
 import { Search } from 'lucide-react-native';
 import { FlatList, Pressable, StyleSheet, Text, TextInput } from 'react-native';
 
+// const {user, loading, login, register} = useAuth();
+
+
 import Card from '@/components/Card';
 import Header from '@/components/Header';
 import { View } from '@/components/Themed';
@@ -73,14 +76,15 @@ export default function Directory() {
           <Text style={{color: "white", fontWeight: "bold", fontSize: 20}}>No students found :(</Text>
         </View>
       }
-      renderItem={({item}) => <Pressable
+      renderItem={({item}) => 
+      <Pressable
       onPress={() => 
           router.push({
             pathname: `/(tabs)/[name]`,
             params: { name: item.firstName + " " + item.lastName, office: item.officer, status: item.relationshipStatus, imgsrc: item.imageURL, phone: item.phone, email: item.email, classCol: item.classification, showEmail: item.showEmail, showPhone: item.showPhone}
-          })
-      }
-      ><Card imgsrc={item.imageURL} name={item.firstName + " " + item.lastName} office={item.officer} status={item.relationshipStatus}/> </Pressable>}>
+          })}>
+        <Card imgsrc={item.imageURL} name={item.firstName + " " + item.lastName} office={item.officer} status={item.relationshipStatus}/> 
+      </Pressable>}>
     </FlatList>
 )}
 
