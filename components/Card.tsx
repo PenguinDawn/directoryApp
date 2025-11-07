@@ -14,13 +14,13 @@ const Card = ({imgsrc, name, office, status, club}: CardProps) => {
         if (club === "XBX") {
             themeCol = {backgroundColor: "#6c27e3ff"}
         }
-        else if (club === "Phi Kappa") {
+        else if (club === "PKA") {
             themeCol = {backgroundColor: "#e01919ff"}
         }
-        else if (club === "Omega Chi") {
+        else if (club === "OX") {
             themeCol = {backgroundColor: "#31d287ff"}
         }
-        else if (club === "Sigma Rho") {
+        else if (club === "EP") {
             themeCol = {backgroundColor: "#f5f064ff"}
         }
         else {

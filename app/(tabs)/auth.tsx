@@ -17,21 +17,22 @@ export default function AuthScreen() {
 
   
   let themeCol;
-        if (club === "XBX") {
-            themeCol = {backgroundColor: "#6c27e3ff"}
-        }
-        else if (club === "Phi Kappa") {
-            themeCol = {backgroundColor: "#e01919ff"}
-        }
-        else if (club === "Omega Chi") {
-            themeCol = {backgroundColor: "#31d287ff"}
-        }
-        else if (club === "Sigma Rho") {
-            themeCol = {backgroundColor: "#f5f064ff"}
-        }
-        else {
-            themeCol =  {backgroundColor: "#308fe2ff"}
-        }
+
+                if (club === "XBX") {
+                    themeCol = {backgroundColor: "#6c27e3ff"}
+                }
+                else if (club === "PKA") {
+                    themeCol = {backgroundColor: "#e01919ff"}
+                }
+                else if (club === "OX") {
+                    themeCol = {backgroundColor: "#31d287ff"}
+                }
+                else if (club === "EP") {
+                    themeCol = {backgroundColor: "#f5f064ff"}
+                }
+                else {
+                    themeCol =  {backgroundColor: "#308fe2ff"}
+                }
 
   //profile screeb
   const [showing, setShowing] = useState(false);

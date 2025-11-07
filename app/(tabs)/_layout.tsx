@@ -26,15 +26,15 @@ export default function TabLayout() {
     themeCol = "#b390f1ff"
     darkThemeCol = "#6c27e3ff"
   }
-  else if (club === "Pi Kappa") {
+  else if (club === "PKA") {
     darkThemeCol = "#a80808ff"
     themeCol = "#f56464ff"
   }
-  else if (club === "Omega Chi") {
+  else if (club === "OX") {
     darkThemeCol = "#065d34ff"
     themeCol = "#99cdb5ff";
   }
-  else if (club === "Sigma Rho") {
+  else if (club === "EP") {
     darkThemeCol = "#000000ff";
     themeCol = "#f5f064ff";
   }

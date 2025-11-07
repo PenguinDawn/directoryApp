@@ -16,21 +16,22 @@ export default function Directory() {
   let {user} = useAuth();
   const router = useRouter();
         let club = ""; // change to use user club
+        
         let themeCol;
-        if (club === "xbx") {
+        if (club === "XBX") {
             themeCol = "#6c27e3ff"
         }
-        else if (club === "pka") {
-            themeCol = "#e01919ff"
+        else if (club === "PKA") {
+            themeCol =  "#e01919ff"
         }
-        else if (club === "ox") {
+        else if (club === "OX") {
             themeCol = "#31d287ff"
         }
-        else if (club === "ep") {
+        else if (club === "EP") {
             themeCol = "#f5f064ff"
         }
-        else if (club === "zxd"){
-            themeCol = "#308fe2ff"
+        else {
+            themeCol =  "#308fe2ff"
         }
 
    useEffect(() => {

@@ -17,16 +17,16 @@ const Event = ({title, description, date, location, time, club}: CardProps) => {
         if (club === "XBX") {
             themeCol = {backgroundColor: "#6c27e3ff"}
         }
-        else if (club === "Phi Kappa") {
+        else if (club === "PKA") {
             themeCol = {backgroundColor: "#e01919ff"}
         }
-        else if (club === "Omega Chi") {
+        else if (club === "OX") {
             themeCol = {backgroundColor: "#31d287ff"}
         }
-        else if (club === "Sigma Rho") {
+        else if (club === "EP") {
             themeCol = {backgroundColor: "#f5f064ff"}
         }
-        else if (club === "Xi Chi Delta") {
+        else if (club === "ZXD") {
             themeCol =  {backgroundColor: "#308fe2ff"}
         }
         else {
