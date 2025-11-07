@@ -5,6 +5,24 @@ import { Image, Linking, Pressable, StyleSheet, Text, View } from 'react-native'
 
 
 export default function NameScreen() {
+        let club = "" // change this to rely on the user data
+
+        let themeCol;
+        if (club === "XBX") {
+            themeCol = {backgroundColor: "#6c27e3ff"}
+        }
+        else if (club === "Phi Kappa") {
+            themeCol = {backgroundColor: "#e01919ff"}
+        }
+        else if (club === "Omega Chi") {
+            themeCol = {backgroundColor: "#31d287ff"}
+        }
+        else if (club === "Sigma Rho") {
+            themeCol = {backgroundColor: "#f5f064ff"}
+        }
+        else {
+            themeCol =  {backgroundColor: "#308fe2ff"}
+        }
 
     const {name, office, status, imgsrc, phone, email, classCol, showEmail, showPhone } = useLocalSearchParams();
     const mailtoUrl = `mailto:${email}`;
@@ -39,7 +57,7 @@ export default function NameScreen() {
 
     return (
     <View style={styles.container}>
-      <Header />
+      <Header title="Directory" club={club}/>
       <View style={[styles.container, {alignItems: "center"}]}>
       <Pressable style={[styles.goBackDirectory]} onPress={() => router.navigate('/')}>
       
@@ -48,7 +66,7 @@ export default function NameScreen() {
 
       </Pressable>
       
-      <View style={[styles.card]}>
+      <View style={[styles.card, themeCol]}>
 
         <View style={styles.imgStyle}>
             <Image style={styles.imgWidth} source={{ uri: imgsrc.toString()}} />
@@ -102,8 +120,7 @@ const styles = StyleSheet.create({
         height: "80%",
         width: "90%",
         // justifyContent: 'space-between',
-        backgroundImage: "linear-gradient(to right top, #330365, #491c81, #5f339e, #7549bc, #8b60db)",
-        fontFamily: 'sans-serif',
+       fontFamily: 'sans-serif',
         fontWeight: 'semibold',
         padding: 15,
         fontSize: 16,
@@ -146,7 +163,7 @@ const styles = StyleSheet.create({
         marginBottom: 2,
     },
     officeText: {
-        backgroundColor: "#330365",
+        backgroundColor: "#000000ff",
         borderRadius: 5,
         padding: 5,
         paddingInline: 10,

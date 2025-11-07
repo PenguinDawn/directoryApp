@@ -1,25 +1,40 @@
+import Header from "@/components/Header";
 import { useAuth } from "@/hooks/AuthContext";
 import React, { useState } from "react";
-import {
-  ActivityIndicator,
-  StyleSheet,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  View,
-} from "react-native";
-
-
+import { ActivityIndicator, Pressable, StyleSheet, Text, TextInput, TouchableOpacity, View, } from "react-native";
 
 export default function AuthScreen() {
   const { user, loading, login, register, logout} = useAuth();
 
+  // auth screen
   const [mode, setMode] = useState<"login" | "register">("login");
   const [email, setEmail] = useState("");
   const [name, setName] = useState(""); // only used in register
   const [password, setPassword] = useState("");
+  const [club, setClub] = useState("");
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
+
+  
+  let themeCol;
+        if (club === "XBX") {
+            themeCol = {backgroundColor: "#6c27e3ff"}
+        }
+        else if (club === "Phi Kappa") {
+            themeCol = {backgroundColor: "#e01919ff"}
+        }
+        else if (club === "Omega Chi") {
+            themeCol = {backgroundColor: "#31d287ff"}
+        }
+        else if (club === "Sigma Rho") {
+            themeCol = {backgroundColor: "#f5f064ff"}
+        }
+        else {
+            themeCol =  {backgroundColor: "#308fe2ff"}
+        }
+
+  //profile screeb
+  const [showing, setShowing] = useState(false);
 
   async function handleSubmit() {
     setSubmitting(true);
@@ -51,30 +66,42 @@ export default function AuthScreen() {
   // if logged in, show a simple profile + logout
   if (user) {
     return (
-      <View style={styles.container}>
-        <Text style={styles.title}>Welcome 👋</Text>
-        <Text style={styles.label}>Name</Text>
-        <Text style={styles.value}>{user.name}</Text>
-        <Text style={styles.label}>Email</Text>
-        <Text style={styles.value}>{user.email}</Text>
+      <View style={{height: "100%"}}>
+      <Header title="Profile" club=""/> {/* change to use user club*/}
+    <View style={styles.container}>
+      
+      <View style={styles.textHolder}>
 
-        <TouchableOpacity
-          style={[styles.button, styles.logoutButton]}
-          onPress={logout}
-          disabled={submitting}
-        >
-          <Text style={styles.buttonText}>Log out</Text>
-        </TouchableOpacity>
+        <Text style={[styles.listingStyle, styles.welcomeTitle]}>Welcome {user.name}!</Text>
+        <Text style={[styles.listingStyle, ]}>Club: {}</Text>
+          {/* name */}
+        <Text style={[styles.listingStyle, ]}>Email: {user.email}</Text>
+          {/* password */}
+        <View style={styles.passwordContainer}>
+          <Text style={[styles.listingStyle, ]}>Password: 
+          {showing && (
+            <Text> {user.password}</Text>
+          )}
+          </Text>
+          {/* show password */}
+          <Pressable onPress={() => {setShowing(!showing)}} style={[styles.showButton]}>Show</Pressable>
+        </View>
       </View>
-    );
+
+      <Pressable style={[styles.buttonHolder]} onPress={logout}>Logout</Pressable>
+    </View>
+    </View>
+  );
   }
 
   // if logged OUT, show login/register form
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>
+    <View style={{height: "100%"}}>
+       <Header title={mode === "login" ? "Login" : "Create Account"} club="" />
+    <View style={[styles.container, {paddingInline: "10%", paddingTop: "20%"}]}>
+      {/* <Text style={[styles.title, {paddingTop: "40%"}]}>
         {mode === "login" ? "Login" : "Create Account"}
-      </Text>
+      </Text> */}
 
       {mode === "register" && (
         <>
@@ -86,6 +113,15 @@ export default function AuthScreen() {
             onChangeText={setName}
             placeholder="Jane Doe"
           />
+
+      <Text style={styles.label}>Club</Text>
+      <TextInput
+        style={styles.input}
+        autoCapitalize="none"
+        value={club}
+        onChangeText={setClub}
+        placeholder="XBX"
+      />
         </>
       )}
 
@@ -137,6 +173,8 @@ export default function AuthScreen() {
         </Text>
       </TouchableOpacity>
     </View>
+    </View>
+
   );
 }
 
@@ -149,9 +187,9 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
-    paddingTop: 96,
+    // paddingTop: 96,
     paddingHorizontal: 24,
-    backgroundColor: "#0a0a0a",
+    backgroundColor: "black",
   },
   title: {
     fontSize: 28,
@@ -191,9 +229,6 @@ const styles = StyleSheet.create({
     marginTop: 4,
     marginBottom: 12,
   },
-  logoutButton: {
-    backgroundColor: "#ff4d4d",
-  },
   buttonText: {
     color: "black",
     fontWeight: "600",
@@ -209,4 +244,64 @@ const styles = StyleSheet.create({
     color: "#ff6b6b",
     marginBottom: 12,
   },
+  welcomeTitle: {
+    fontSize: 26,
+    fontWeight: 'bold',
+    alignSelf: "center",
+    marginTop: 10,
+    color: "white",
+  },
+  textHolder: {
+    width: "80%",
+    gap: 20,
+    marginInline: "auto",
+    marginBottom: 20,
+    marginTop: 20,
+    color: "white",
+  },
+  middle: {
+    marginInline: "auto",
+  },
+  listingStyle: {
+    fontSize: 16,
+    color: "white",
+  },
+  passwordContainer: {
+    flexDirection: "row",
+    gap: 4,
+    justifyContent: "space-between",
+  },
+  buttonHolder: {
+    fontFamily: 'sans-serif',
+    padding: 10,
+    borderRadius: 5,
+    cursor: "pointer",
+    backgroundColor: "white",
+    alignItems: "center",
+    marginTop: 10,
+    width: "62%",
+    marginInline: "auto",
+    color: "black",
+  },
+   showButton: {
+    color: 'black',
+    backgroundColor: "white",
+
+    fontFamily: 'sans-serif',
+    fontSize: 14,
+    padding: 5,
+    borderRadius: 5,
+    cursor: "pointer",
+  },
+  flexer: {
+      flexDirection: "row",
+      justifyContent: 'center',
+      borderBottomLeftRadius: 10,
+      borderBottomRightRadius: 10,
+      padding: 5,
+      paddingTop: 10,
+      paddingBottom: 10,
+    },
+
 });
+

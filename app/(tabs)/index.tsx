@@ -1,18 +1,20 @@
-import { Search } from 'lucide-react-native';
-import { FlatList, Pressable, StyleSheet, Text, TextInput } from 'react-native';
+import { Image, StyleSheet, Text } from 'react-native';
 
-// const {user, loading, login, register} = useAuth();
-
-
-import Card from '@/components/Card';
-import Header from '@/components/Header';
 import { View } from '@/components/Themed';
+import { FlatList } from 'react-native';
+
+import Event from '@/components/Event';
 import { useRouter } from 'expo-router';
 import { useEffect, useState } from 'react';
 
-export default function Directory() {
+
+
+// Title, Description, Date, Time, Club, Location
+export default function Home() {
+
   const router = useRouter();
-  
+
+
    useEffect(() => {
     const fetchData = async () => {
       try {
@@ -36,55 +38,33 @@ export default function Directory() {
   const [data, setData] = useState();
   const [newData, setNewData] = useState();
   const [loading, setLoading] = useState(true);
-  const [filter, setFilter] = useState("");
 
 
-  const sendFilter = () => {
-    if(filter === " ") {
-      setData(newData);
-      return;
-    }
-    setData(newData.filter((person) => (person.firstName).toLowerCase().includes(filter.toLowerCase().trim()) || (person.lastName).toLowerCase().includes(filter.toLowerCase().trim())))
-  };
-
-  const entering = (event) => {
-    if (event.key === "Enter") {
-        event.preventDefault(); // Prevent default form submission
-        sendFilter(); // Call the filter function
-    }
-  }
-
-  return (
+// Title, Description, Date, Time, Club, Location
+      return (
     <FlatList
       style={styles.flatListed}
       ListHeaderComponent={
-        <View style={styles.container}>
-          <Header />
-        <View style={styles.search}>
-        <Pressable onPress={sendFilter} >
-          <Search size={18} />
-        </Pressable>
-        <TextInput placeholder='Search' onKeyPress={entering} value={filter} onChangeText={(text) => {setFilter(text)}} clearButtonMode="always"></TextInput>
-        </View>
-        <View style={styles.separator} />
+        <View style={{backgroundColor: "black"}}>
+        <View style={styles.heading}>
+          <Image source={require('@/assets/images/XBX.png')} style={styles.imgYeah}/>
+          <Image source={require('@/assets/images/PiKappa.png')} style={styles.imgYeah}/>
+          <Image source={require('@/assets/images/SigmaRho.png')} style={styles.imgYeah}/>
+          <Image source={require('@/assets/images/XiChi.png')} style={styles.imgYeah}/>
+          <Image source={require('@/assets/images/OmegaChi.png')} style={styles.imgYeah}/>
+      </View>
+      <Text style={styles.title}>Events</Text>
       </View>
       }
       data={data}
-      keyExtractor={(item) => item.name}
+      keyExtractor={(item) => item.title}
       ListEmptyComponent={
         <View style={[styles.viewed, {backgroundColor: "black"}]}>
-          <Text style={{color: "white", fontWeight: "bold", fontSize: 20}}>No students found :(</Text>
+          <Text style={{color: "white", fontWeight: "bold", fontSize: 20}}>No events today :(</Text>
         </View>
       }
       renderItem={({item}) => 
-      <Pressable
-      onPress={() => 
-          router.push({
-            pathname: `/(tabs)/[name]`,
-            params: { name: item.firstName + " " + item.lastName, office: item.officer, status: item.relationshipStatus, imgsrc: item.imageURL, phone: item.phone, email: item.email, classCol: item.classification, showEmail: item.showEmail, showPhone: item.showPhone}
-          })}>
-        <Card imgsrc={item.imageURL} name={item.firstName + " " + item.lastName} office={item.officer} status={item.relationshipStatus}/> 
-      </Pressable>}>
+            <Event title={item.title} club={item.club} time={item.time} description={item.description} date={item.date} location={item.location}/>}>
     </FlatList>
 )}
 
@@ -99,7 +79,6 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
     flexDirection: "row",
     borderRadius: 8,
-    borderColor: "#b390f1ff",
     borderWidth: 4,
     gap: 3,
     padding: 3,
@@ -116,7 +95,20 @@ const styles = StyleSheet.create({
   },
   viewed: {
     alignItems: "center",
-  }
+  },
+  heading: {
+    flexDirection: "row",
 
-  
+  },
+  imgYeah: {
+    width: "20%",
+    height: 100,
+  },
+  title: {
+    color: "white",
+    alignSelf: "center",
+    fontSize: 30,
+    paddingTop: 20,
+    paddingBottom: 20,
+  }
 });

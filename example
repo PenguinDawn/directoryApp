@@ -1,0 +1,60 @@
+// Node 20/22 runtime
+import { Client, ID, Permission, Role, TablesDB } from 'node-appwrite';
+
+export default async ({ req, res, log }) => {
+  const client = new Client()
+    .setEndpoint(process.env.APPWRITE_ENDPOINT)
+    .setProject(process.env.APPWRITE_PROJECT_ID)
+    .setKey(process.env.APPWRITE_API_KEY);
+
+  const tables = new TablesDB(client);
+  const DB_ID = process.env.DB_ID;
+  const TABLE_ID = process.env.TABLE_ID;
+
+  try {
+    const url = new URL(req.url);
+    const id = url.searchParams.get('id');
+
+    if (req.method === 'GET') {
+      if (id) {
+        const row = await tables.getRow({ databaseId: DB_ID, tableId: TABLE_ID, rowId: id });
+        return res.json(row);
+      }
+      const rows = await tables.listRows({ databaseId: DB_ID, tableId: TABLE_ID });
+      return res.json(rows);
+    }
+
+    if (req.method === 'POST') {
+      const body = await req.json();
+      const row = await tables.createRow({
+        databaseId: DB_ID,
+        tableId: TABLE_ID,
+        rowId: ID.unique(),
+        data: body,
+        permissions: [
+          // Example: make rows public-read
+          Permission.read(Role.any())
+        ]
+      });
+      return res.json(row, 201);
+    }
+
+    if (req.method === 'PATCH') {
+      if (!id) return res.text('Missing id', 400);
+      const body = await req.json();
+      const row = await tables.updateRow({ databaseId: DB_ID, tableId: TABLE_ID, rowId: id, data: body });
+      return res.json(row);
+    }
+
+    if (req.method === 'DELETE') {
+      if (!id) return res.text('Missing id', 400);
+      await tables.deleteRow({ databaseId: DB_ID, tableId: TABLE_ID, rowId: id });
+      return res.empty();
+    }
+
+    return res.text('Method not allowed', 405);
+  } catch (err) {
+    log(err);
+    return res.json({ error: err.message }, 500);
+  }
+};

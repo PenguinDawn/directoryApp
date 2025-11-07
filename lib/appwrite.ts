@@ -2,7 +2,7 @@ import { Account, Client, ID, Models } from "react-native-appwrite";
 import "react-native-url-polyfill/auto";
 
 const APPWRITE_ENDPOINT = "https://nyc.cloud.appwrite.io/v1"
-const APPWRITE_PROJECT_ID = "68f8ec3000187c72a353";
+const APPWRITE_PROJECT_ID = "6908d1580030732fe1df";
 const APPWRITE_PLATFORM = "Andriod"
 
 const client = new Client()

@@ -1,15 +1,18 @@
-import { Heart } from 'lucide-react-native';
-import { Image, StyleSheet, Text, View } from 'react-native';
+
+import { StyleSheet, Text, View } from 'react-native';
+
+// Title, Description, Date, Time, Club, Location
 
 interface CardProps {
-    imgsrc: string,
-    name: string,
-    office: string,
-    status: string,
+    title: string,
+    description: string,
+    date: string,
+    location: string,
+    time: string,
     club: string,
 }
 
-const Card = ({imgsrc, name, office, status, club}: CardProps) => {
+const Event = ({title, description, date, location, time, club}: CardProps) => {
       let themeCol;
         if (club === "XBX") {
             themeCol = {backgroundColor: "#6c27e3ff"}
@@ -23,53 +26,55 @@ const Card = ({imgsrc, name, office, status, club}: CardProps) => {
         else if (club === "Sigma Rho") {
             themeCol = {backgroundColor: "#f5f064ff"}
         }
-        else {
+        else if (club === "Xi Chi Delta") {
             themeCol =  {backgroundColor: "#308fe2ff"}
+        }
+        else {
+            themeCol =  {backgroundColor: "#510202ff"}
+            club = "FHU"
         }
 
   return (
     <View style={[styles.card, themeCol]}>
-        <View style={styles.imgStyle}>
-            <Image style={styles.imgWidth} source={{ uri: imgsrc}} />
-        </View>
         <View style={styles.listed}>
-            <Text style={styles.nameStyle}>{name}</Text>
-            {office != undefined &&
-                <Text style={[styles.textStyle, styles.officeText]}>{office}</Text>
-            }
-            <View style={styles.singleLine}>
-                <Heart fill="white" stroke="white" size={20} />
-                <Text style={styles.textStyle}>{status}</Text>
+            <View style={styles.spaced}>
+            <Text style={styles.nameStyle}>{title}</Text>
+            <Text style={styles.textStyle}><Text style={styles.quest}>When:</Text> {date} at {time}</Text>
+            <Text style={styles.textStyle}><Text style={styles.quest}>Where:</Text> {location}</Text>
+            </View>
+            <View>
+                <Text style={styles.clubStyle}>{club}</Text>
             </View>
         </View>
+            <View style={styles.singleLine}>
+                <Text style={styles.textStyle}>{description}</Text>
+            </View>
+        
     </View>
   )
 }
 
-export default Card
+export default Event
 
 const styles = StyleSheet.create({
     card: {
         height: 200,
         width: "90%",
-        justifyContent: 'space-between',
+        gap: 5,
         // backgroundImage: "linear-gradient(to right top, #330365, #491c81, #5f339e, #7549bc, #8b60db)",
         borderRadius: 5,
         fontFamily: 'sans-serif',
         fontWeight: 'semibold',
-        padding: 15,
+        padding: 30,
         fontSize: 16,
-        flexDirection: 'row',
-        gap: 5,
+        flexDirection: 'column',
         marginInline: 'auto',
         marginBottom: 25,
     },
     listed: {
-        flexDirection: 'column',
-        gap: 8,
+        flexDirection: 'row',
         fontSize: 18,
-        width: '45%',
-        justifyContent: 'center',
+        justifyContent: 'space-between',
     },
     textStyle: {
         fontSize: 16,
@@ -81,28 +86,21 @@ const styles = StyleSheet.create({
         fontWeight: "bold",
         letterSpacing: 1,
     },
-    imgStyle: {
-        borderRadius: 5,
-        width: "50%",
-        height: "100%"
-    },
-    imgWidth: {
-         borderRadius: 5,
-        width: "100%",
-        height: "100%",
-    },
     singleLine: {
         flexDirection: "row",
         alignItems: "center",
         gap: 3,
         marginLeft: 2,
     },
-    officeText: {
-        backgroundColor: "#000000ff",
-        borderRadius: 5,
-        padding: 5,
-        paddingInline: 10,
-        alignSelf: "flex-start",
+    clubStyle: {
+        fontSize: 24,
+        color: "white",
+    },
+    quest: {
+        fontWeight: "bold",
+    },
+    spaced: {
+        gap: 5,
     }
 
 })

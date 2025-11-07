@@ -1,12 +1,29 @@
 import { StyleSheet, Text, View } from 'react-native';
 
 
-const Header = ({...props}) => {
+const Header = ({title, club}: {title:string, club:string}) => {
+
+  let themeCol;
+  if (club === "XBX") {
+    themeCol = {backgroundColor: "#b390f1ff"}
+  }
+  else if (club === "Pi Kappa") {
+    themeCol = {backgroundColor: "#f56464ff"}
+  }
+  else if (club === "Omega Chi") {
+    themeCol = {backgroundColor: "#99cdb5ff"}
+  }
+  else if (club === "Sigma Rho") {
+    themeCol = {backgroundColor: "#f5f064ff"}
+  }
+  else {
+    themeCol =  {backgroundColor: "#64b1f5ff"}
+  }
 
   return (
-    <View style={[styles.maroon]}>
+    <View style={[styles.maroon, themeCol]}>
       <Text style={[styles.texted]} >
-        Directory
+        {title}
       </Text>
     </View>
   )
@@ -25,7 +42,6 @@ const styles = StyleSheet.create({
         fontSize: 16,
         flexDirection: 'row',
         width: '100%',
-        backgroundColor:  "#b390f1ff",
     },
     texted : {
       fontSize: 30,
