@@ -5,19 +5,19 @@ const Header = ({title, club}: {title:string, club:string | undefined}) => {
 
   let white = {color: "black"};
   let themeCol;
-  if (club === "XBX") {
+  if (club === "xbx") {
     themeCol = {backgroundColor: "#b390f1ff"}
   }
-  else if (club === "PKA") {
+  else if (club === "pka") {
     themeCol = {backgroundColor: "#f56464ff"}
   }
-  else if (club === "OX") {
+  else if (club === "ox") {
     themeCol = {backgroundColor: "#99cdb5ff"}
   }
-  else if (club === "EP") {
+  else if (club === "ep") {
     themeCol = {backgroundColor: "#f5f064ff"}
   }
-  else if (club == "ZXD") {
+  else if (club == "zxd") {
     themeCol =  {backgroundColor: "#64b1f5ff"}
   }
   else {

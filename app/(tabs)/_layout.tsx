@@ -16,31 +16,35 @@ function TabBarIcon(props: {
 
 export default function TabLayout() {
   const colorScheme = useColorScheme();
-  const {user} = useAuth();
+  const {user, member} = useAuth();
 
   let themeCol;
   let darkThemeCol;
-  let club; // update to get the user club
+  let club = member?.club; // update to get the user club
 
-  if (club === "XBX") {
+  if (club === "xbx") {
     themeCol = "#b390f1ff"
     darkThemeCol = "#6c27e3ff"
   }
-  else if (club === "PKA") {
+  else if (club === "pka") {
     darkThemeCol = "#a80808ff"
     themeCol = "#f56464ff"
   }
-  else if (club === "OX") {
+  else if (club === "ox") {
     darkThemeCol = "#065d34ff"
     themeCol = "#99cdb5ff";
   }
-  else if (club === "EP") {
+  else if (club === "ep") {
     darkThemeCol = "#000000ff";
     themeCol = "#f5f064ff";
   }
-  else {
+  else if (club === "zxd") {
     darkThemeCol = "#0668bdff"
     themeCol = "#64b1f5ff"
+  }
+  else {
+    darkThemeCol = "maroon"
+    themeCol = "white"
   }
 
   return (

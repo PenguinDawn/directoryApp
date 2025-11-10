@@ -80,7 +80,7 @@ export default function AuthScreen() {
   if (user) {
     return (
       <View style={{height: "100%"}}>
-      <Header title="Profile" club=""/> {/* change to use user club*/}
+      <Header title="Profile" club={member?.club}/> {/* change to use user club*/}
     <View style={styles.container}>
       
       <View style={styles.textHolder}>

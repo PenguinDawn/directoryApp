@@ -19,16 +19,16 @@ export default function Directory() {
         let club = member?.club; // change to use user club
         
         let themeCol;
-        if (club === "XBX") {
+        if (club === "xbx") {
             themeCol = "#6c27e3ff"
         }
-        else if (club === "PKA") {
+        else if (club === "pka") {
             themeCol =  "#e01919ff"
         }
-        else if (club === "OX") {
+        else if (club === "ox") {
             themeCol = "#31d287ff"
         }
-        else if (club === "EP") {
+        else if (club === "ep") {
             themeCol = "#f5f064ff"
         }
         else {
