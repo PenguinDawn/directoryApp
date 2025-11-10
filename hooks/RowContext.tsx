@@ -55,7 +55,7 @@ export interface EventRow extends Models.Row {
             const response = await appwriteService.tables.listRows<EventRow>({
                 databaseId: APPWRITE_CONFIG.databaseId,
                 tableId: APPWRITE_CONFIG.eventsTableId,
-                queries: [],
+                queries: [Query.isNotNull("title")],
             });
             return response.rows?? null;
             }

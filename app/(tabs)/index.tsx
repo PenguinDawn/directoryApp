@@ -4,6 +4,7 @@ import { View } from '@/components/Themed';
 import { FlatList } from 'react-native';
 
 import Event from '@/components/Event';
+import { getEvents } from '@/hooks/RowContext';
 import { useRouter } from 'expo-router';
 import { useEffect, useState } from 'react';
 
@@ -13,6 +14,8 @@ import { useEffect, useState } from 'react';
 export default function Home() {
 
   const router = useRouter();
+  const responses = getEvents();
+  
 
 
    useEffect(() => {
@@ -54,6 +57,7 @@ export default function Home() {
           <Image source={require('@/assets/images/OmegaChi.png')} style={styles.imgYeah}/>
       </View>
       <Text style={styles.title}>Events</Text>
+      <View>{}</View>
       </View>
       }
       data={data}
