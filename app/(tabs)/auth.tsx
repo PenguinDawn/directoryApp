@@ -85,7 +85,7 @@ export default function AuthScreen() {
       
       <View style={styles.textHolder}>
 
-        <Text style={[styles.listingStyle, styles.welcomeTitle]}>Welcome {user?.name}!</Text>
+        <Text style={[styles.listingStyle, styles.welcomeTitle]}>Welcome,{user?.name}!</Text>
         <Text style={[styles.listingStyle, ]}>Club: {member?.club}</Text>
           {/* name */}
         <Text style={[styles.listingStyle, ]}>Email: {member?.email}</Text>
@@ -93,9 +93,9 @@ export default function AuthScreen() {
         <Text style={[styles.listingStyle, ]}>Club: {member?.club}</Text>
           {/* password */}
         <View style={styles.passwordContainer}>
-          <Text style={[styles.listingStyle, ]}>Password: 
+          <Text style={[styles.listingStyle]}>Password: 
           {showing && (
-            <Text style={{color: "white"}}> {user?.password}</Text>
+            <Text> {user.password}</Text>
           )}
           </Text>
           {/* show password */}

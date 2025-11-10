@@ -2,6 +2,19 @@
 import { Account, Client, ID, Models, Query, TablesDB, } from "react-native-appwrite";
 import "react-native-url-polyfill/auto";
 
+
+  const getMembers = async (club:string) => {
+    try {
+      const response = await tables.listRows<MemberRow>({
+        databaseId: config.databaseId,
+        tableId: config.membersTableId,
+        queries: [Query.equal("club", club)],
+      });
+      return response.rows?? null;
+    }
+  }
+appwrite service get
+
 // Load configuration from environment variables
 // Use EXPO_PUBLIC_ prefix for variables accessible in React Native
 const getAppWriteConfig = () => {
@@ -162,6 +175,7 @@ export function createAppWriteService(config: AppWriteConfig) {
       return null;
     }
   };
+
 
   // creating a member for the user
   const createMemberForUser = async (
