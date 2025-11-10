@@ -1,28 +1,33 @@
 import { StyleSheet, Text, View } from 'react-native';
 
 
-const Header = ({title, club}: {title:string, club:string}) => {
+const Header = ({title, club}: {title:string, club:string | undefined}) => {
 
+  let white = {color: "black"};
   let themeCol;
   if (club === "XBX") {
     themeCol = {backgroundColor: "#b390f1ff"}
   }
-  else if (club === "Pi Kappa") {
+  else if (club === "PKA") {
     themeCol = {backgroundColor: "#f56464ff"}
   }
-  else if (club === "Omega Chi") {
+  else if (club === "OX") {
     themeCol = {backgroundColor: "#99cdb5ff"}
   }
-  else if (club === "Sigma Rho") {
+  else if (club === "EP") {
     themeCol = {backgroundColor: "#f5f064ff"}
   }
-  else {
+  else if (club == "ZXD") {
     themeCol =  {backgroundColor: "#64b1f5ff"}
+  }
+  else {
+    themeCol = {backgroundColor: "maroon"}
+    white = {color: "white"}
   }
 
   return (
     <View style={[styles.maroon, themeCol]}>
-      <Text style={[styles.texted]} >
+      <Text style={[styles.texted, white]} >
         {title}
       </Text>
     </View>

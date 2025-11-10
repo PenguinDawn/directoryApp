@@ -9,7 +9,7 @@ interface CardProps {
     date: string,
     location: string,
     time: string,
-    club: string,
+    club: string | undefined,
 }
 
 const Event = ({title, description, date, location, time, club}: CardProps) => {

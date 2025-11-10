@@ -1,19 +1,22 @@
 import Header from "@/components/Header";
 import { useAuth } from "@/hooks/AuthContext";
 import React, { useState } from "react";
-import { ActivityIndicator, Pressable, StyleSheet, Text, TextInput, TouchableOpacity, View, } from "react-native";
+import { ActivityIndicator, Pressable, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View, } from "react-native";
 
 export default function AuthScreen() {
-  const { user, loading, login, register, logout} = useAuth();
+   const {user,member, loading, error, login, register, logout, updateMember, refresh} = useAuth();
 
   // auth screen
   const [mode, setMode] = useState<"login" | "register">("login");
   const [email, setEmail] = useState("");
-  const [name, setName] = useState(""); // only used in register
   const [password, setPassword] = useState("");
-  const [club, setClub] = useState("");
+
+  const [name, setName] = useState(""); // only used in register
+  const [club, setClub] = useState(""); // only used in register
+  const [phone, setPhone] = useState(""); // only used in register
+
   const [submitting, setSubmitting] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+  //const [error, setError] = useState<string | null>(null);
 
   
   let themeCol;
@@ -39,19 +42,28 @@ export default function AuthScreen() {
 
   async function handleSubmit() {
     setSubmitting(true);
-    setError(null);
+    // setError(null);
     try {
       if (mode === "login") {
         await login(email.trim(), password);
       } else {
-        await register(email.trim(), password, name.trim());
+        await register(email.trim(), password, name.trim(), phone, club);
       }
     } catch (err: any) {
       // Appwrite throws rich errors (code, message, etc.)
-      setError(err?.message || "Something went wrong.");
+      // setError(err?.message || "Something went wrong.");
     } finally {
       setSubmitting(false);
     }
+  }
+
+
+   if (error) {
+    return (
+      <View style={styles.center}>
+        <Text style={styles.errorText}>{error}</Text>
+      </View>
+    );
   }
 
   if (loading) {
@@ -73,15 +85,17 @@ export default function AuthScreen() {
       
       <View style={styles.textHolder}>
 
-        <Text style={[styles.listingStyle, styles.welcomeTitle]}>Welcome {user.name}!</Text>
-        <Text style={[styles.listingStyle, ]}>Club: {}</Text>
+        <Text style={[styles.listingStyle, styles.welcomeTitle]}>Welcome {user?.name}!</Text>
+        <Text style={[styles.listingStyle, ]}>Club: {member?.club}</Text>
           {/* name */}
-        <Text style={[styles.listingStyle, ]}>Email: {user.email}</Text>
+        <Text style={[styles.listingStyle, ]}>Email: {member?.email}</Text>
+        <Text style={[styles.listingStyle, ]}>Phone: {member?.phone}</Text>
+        <Text style={[styles.listingStyle, ]}>Club: {member?.club}</Text>
           {/* password */}
         <View style={styles.passwordContainer}>
           <Text style={[styles.listingStyle, ]}>Password: 
           {showing && (
-            <Text> {user.password}</Text>
+            <Text style={{color: "white"}}> {user?.password}</Text>
           )}
           </Text>
           {/* show password */}
@@ -97,7 +111,7 @@ export default function AuthScreen() {
 
   // if logged OUT, show login/register form
   return (
-    <View style={{height: "100%"}}>
+    <ScrollView style={{height: "100%"}}>
        <Header title={mode === "login" ? "Login" : "Create Account"} club="" />
     <View style={[styles.container, {paddingInline: "10%", paddingTop: "20%"}]}>
       {/* <Text style={[styles.title, {paddingTop: "40%"}]}>
@@ -115,14 +129,21 @@ export default function AuthScreen() {
             placeholder="Jane Doe"
           />
 
-      <Text style={styles.label}>Club</Text>
-      <TextInput
-        style={styles.input}
-        autoCapitalize="none"
-        value={club}
-        onChangeText={setClub}
-        placeholder="XBX"
-      />
+         <Text style={styles.label}>Club</Text>
+            <TextInput
+              style={styles.input}
+              value={club}
+              onChangeText={setClub}
+              placeholder="xbx"
+            />
+
+            <Text style={styles.label}>Phone</Text>
+            <TextInput
+              style={styles.input}
+              value={phone}
+              onChangeText={setPhone}
+              placeholder="+12223334444"
+            />
         </>
       )}
 
@@ -174,7 +195,7 @@ export default function AuthScreen() {
         </Text>
       </TouchableOpacity>
     </View>
-    </View>
+    </ScrollView>
 
   );
 }

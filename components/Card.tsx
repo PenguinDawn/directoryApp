@@ -6,7 +6,7 @@ interface CardProps {
     name: string,
     office: string,
     status: string,
-    club: string,
+    club: string | undefined,
 }
 
 const Card = ({imgsrc, name, office, status, club}: CardProps) => {

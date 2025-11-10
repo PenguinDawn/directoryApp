@@ -4,6 +4,7 @@ import { FlatList, Pressable, StyleSheet, Text, TextInput } from 'react-native';
 // const {user, loading, login, register} = useAuth();
 
 
+
 import Card from '@/components/Card';
 import Header from '@/components/Header';
 import { View } from '@/components/Themed';
@@ -13,9 +14,9 @@ import { useEffect, useState } from 'react';
 
 export default function Directory() {
 
-  let {user} = useAuth();
+  let {user, member} = useAuth();
   const router = useRouter();
-        let club = ""; // change to use user club
+        let club = member?.club; // change to use user club
         
         let themeCol;
         if (club === "XBX") {
