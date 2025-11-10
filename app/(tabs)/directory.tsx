@@ -9,6 +9,7 @@ import Card from '@/components/Card';
 import Header from '@/components/Header';
 import { View } from '@/components/Themed';
 import { useAuth } from '@/hooks/AuthContext';
+import { getMembers } from '@/hooks/RowContext';
 import { Link, useRouter } from 'expo-router';
 import { useEffect, useState } from 'react';
 
@@ -35,16 +36,13 @@ export default function Directory() {
             themeCol =  "#308fe2ff"
         }
 
+
    useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch('https://nyc.cloud.appwrite.io/v1/storage/buckets/68f8ed13003a261f4bcb/files/68f8efae0034f5b9beef/view?project=68f8ed01002593f33953&mode=admin');
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
-        }
-        const json = await response.json();
-        setData(json);
-        setNewData(json);
+        const response = await getMembers(member?.club);
+        setData(response);
+        setNewData(response);
       } catch (error) {
       
       } finally {

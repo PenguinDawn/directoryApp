@@ -3,17 +3,6 @@ import { Account, Client, ID, Models, Query, TablesDB, } from "react-native-appw
 import "react-native-url-polyfill/auto";
 
 
-  const getMembers = async (club:string) => {
-    try {
-      const response = await tables.listRows<MemberRow>({
-        databaseId: config.databaseId,
-        tableId: config.membersTableId,
-        queries: [Query.equal("club", club)],
-      });
-      return response.rows?? null;
-    }
-  }
-appwrite service get
 
 // Load configuration from environment variables
 // Use EXPO_PUBLIC_ prefix for variables accessible in React Native
@@ -25,7 +14,7 @@ const getAppWriteConfig = () => {
   const membersTableId = process.env.EXPO_PUBLIC_APPWRITE_MEMBERS_TABLE_ID;
   const eventsTableId = process.env.EXPO_PUBLIC_APPWRITE_EVENTS_TABLE_ID;
   // if it doesn't have the data, throw an error
-  if (!endpoint || !projectId || !platform || !databaseId || !membersTableId) {
+  if (!endpoint || !projectId || !platform || !databaseId || !membersTableId || !eventsTableId) {
     throw new Error(
       "Missing required AppWrite environment variables. " +
       "Please check your .env file and ensure all EXPO_PUBLIC_APPWRITE_* variables are set."
