@@ -1,23 +1,25 @@
 import Header from '@/components/Header';
+import { useAuth } from '@/hooks/AuthContext';
 import { router, useLocalSearchParams } from "expo-router";
 import { ChevronLeft, Heart } from 'lucide-react-native';
 import { Image, Linking, Pressable, StyleSheet, Text, View } from 'react-native';
 
 
 export default function NameScreen() {
-        let club = "" // change this to rely on the user data
+        const {user, member} = useAuth();
+        let club = member?.club; // change this to rely on the user data
 
         let themeCol;
-        if (club === "XBX") {
+        if (club === "xbx") {
             themeCol = {backgroundColor: "#6c27e3ff"}
         }
-        else if (club === "PKA") {
+        else if (club === "pka") {
             themeCol = {backgroundColor: "#e01919ff"}
         }
-        else if (club === "OX") {
+        else if (club === "ox") {
             themeCol = {backgroundColor: "#31d287ff"}
         }
-        else if (club === "EP") {
+        else if (club === "ep") {
             themeCol = {backgroundColor: "#f5f064ff"}
         }
         else {
@@ -59,7 +61,7 @@ export default function NameScreen() {
     <View style={styles.container}>
       <Header title="Directory" club={club}/>
       <View style={[styles.container, {alignItems: "center"}]}>
-      <Pressable style={[styles.goBackDirectory]} onPress={() => router.navigate('/')}>
+      <Pressable style={[styles.goBackDirectory]} onPress={() => router.navigate('/directory')}>
       
             <ChevronLeft size={32} style={styles.chevvy}/>
             <Text style={styles.goBack}>Go Back To Directory</Text>
