@@ -1,10 +1,6 @@
 import { Search } from 'lucide-react-native';
 import { FlatList, Pressable, StyleSheet, Text, TextInput } from 'react-native';
 
-// const {user, loading, login, register} = useAuth();
-
-
-
 import Card from '@/components/Card';
 import Header from '@/components/Header';
 import { View } from '@/components/Themed';
@@ -38,8 +34,7 @@ export default function Directory() {
   }
 
 
-  const [data, setData] = useState();
-  const [newData, setNewData] = useState();
+  const [newData, setNewData] = useState<MemberRow[] | null>();
   const [loading, setLoading] = useState(true);
   const [filter, setFilter] = useState("");
 
@@ -60,10 +55,10 @@ export default function Directory() {
 
   const sendFilter = () => {
     if(filter === " ") {
-      setData(newData);
+      setNewData(members);
       return;
     }
-    setData(newData.filter((person) => (person.firstName).toLowerCase().includes(filter.toLowerCase().trim()) || (person.lastName).toLowerCase().includes(filter.toLowerCase().trim())))
+    setNewData(members.filter((person) => (person.name).toLowerCase().includes(filter.toLowerCase().trim())))
   };
 
   const entering = (event) => {
@@ -86,8 +81,8 @@ export default function Directory() {
                 {/* onPress={sendFilter}  */}
                 <Search size={18} />
               </Pressable>
-              <TextInput placeholder='Search' value={filter} onChangeText={(text) => { setFilter(text) }} clearButtonMode="always"></TextInput>
-              onKeyPress={entering}
+              <TextInput onKeyPress={entering} placeholder='Search' value={filter} onChangeText={(text) => { setFilter(text) }} clearButtonMode="always"></TextInput>
+              
             </View>
             <View style={styles.separator} />
           </View>
