@@ -2,10 +2,10 @@ import { Heart } from 'lucide-react-native';
 import { Image, StyleSheet, Text, View } from 'react-native';
 
 interface CardProps {
-    imgsrc: string,
-    name: string,
-    office: string,
-    status: string,
+    imgsrc: string | undefined,
+    name: string | undefined,
+    office: string | undefined,
+    status: string | undefined,
     club: string | undefined,
 }
 

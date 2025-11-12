@@ -43,6 +43,7 @@ export interface MemberRow extends Models.Row {
   showPhone?: boolean | undefined;
   office?: string | undefined;
   classification?: string | undefined;
+  status?: string | undefined;
   imgsrc?: string | undefined;
 }
 // how our events look like
@@ -215,6 +216,36 @@ export function createAppWriteService(config: AppWriteConfig) {
     });
   };
 
+
+  const getMembers = async (club: string) => {
+    try {
+      const response = await tables.listRows<MemberRow>({
+        databaseId: APPWRITE_CONFIG.databaseId,
+        tableId: APPWRITE_CONFIG.membersTableId,
+        queries: [Query.equal("club", club), Query.orderAsc("name")],
+      });
+      return response.rows ?? null;
+    }
+    finally {
+
+    }
+  }
+
+
+  const getEvents = async () => {
+    try {
+      const response = await tables.listRows<EventRow>({
+        databaseId: APPWRITE_CONFIG.databaseId,
+        tableId: APPWRITE_CONFIG.eventsTableId,
+        queries: [Query.isNotNull("title")],
+      });
+      return response.rows ?? null;
+    }
+    finally {
+
+    }
+  }
+
   return {
     // low-level objects
     client,
@@ -231,6 +262,8 @@ export function createAppWriteService(config: AppWriteConfig) {
     createMemberForUser,
     ensureMemberForUser,
     updateMember,
+    getMembers,
+    getEvents,
   };
 }
 
@@ -248,7 +281,7 @@ async function registerWithEmail( {email, password,name} : {email:string, passwo
     await account.createEmailPasswordSession({email, password})
 
     return await account.get<Models.User<Models.Preferences>>()
-} 
+}
 
 async function loginWithEmail( {email, password}: {email:string, password:string}) {
 

@@ -9,112 +9,113 @@ import Card from '@/components/Card';
 import Header from '@/components/Header';
 import { View } from '@/components/Themed';
 import { useAuth } from '@/hooks/AuthContext';
-import { getMembers } from '@/hooks/RowContext';
+
+import { APPWRITE_CONFIG, createAppWriteService, MemberRow } from '@/lib/appwrite';
 import { Link, useRouter } from 'expo-router';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 
 export default function Directory() {
 
-  let {user, member} = useAuth();
+  let { user, member } = useAuth();
   const router = useRouter();
-        let club = member?.club; // change to use user club
-        
-        let themeCol;
-        if (club === "xbx") {
-            themeCol = "#6c27e3ff"
-        }
-        else if (club === "pka") {
-            themeCol =  "#e01919ff"
-        }
-        else if (club === "ox") {
-            themeCol = "#31d287ff"
-        }
-        else if (club === "ep") {
-            themeCol = "#f5f064ff"
-        }
-        else {
-            themeCol =  "#308fe2ff"
-        }
+  let club = member?.club; // change to use user club
 
+  let themeCol;
+  if (club === "xbx") {
+    themeCol = "#6c27e3ff"
+  }
+  else if (club === "pka") {
+    themeCol = "#e01919ff"
+  }
+  else if (club === "ox") {
+    themeCol = "#31d287ff"
+  }
+  else if (club === "ep") {
+    themeCol = "#f5f064ff"
+  }
+  else {
+    themeCol = "#308fe2ff"
+  }
 
-   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await getMembers(member?.club);
-        setData(response);
-        setNewData(response);
-      } catch (error) {
-      
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchData();
-  }, []); 
 
   const [data, setData] = useState();
   const [newData, setNewData] = useState();
   const [loading, setLoading] = useState(true);
   const [filter, setFilter] = useState("");
 
+  const appWriteService = useMemo(() => createAppWriteService(APPWRITE_CONFIG), [])
+  const [members, setMembers] = useState<MemberRow[] | null>();
 
-  const sendFilter = () => {
-    if(filter === " ") {
-      setData(newData);
-      return;
-    }
-    setData(newData.filter((person) => (person.firstName).toLowerCase().includes(filter.toLowerCase().trim()) || (person.lastName).toLowerCase().includes(filter.toLowerCase().trim())))
-  };
 
-  const entering = (event) => {
-    if (event.key === "Enter") {
-        event.preventDefault(); // Prevent default form submission
-        sendFilter(); // Call the filter function
-    }
+  const loadMembers = useCallback(async () => {
+    let myData = await appWriteService.getMembers(member?.club);
+    setMembers(myData);
+  }, [appWriteService]);
+
+
+  useEffect(() => {
+    loadMembers();
+  }, [loadMembers])
+
+
+  // const sendFilter = () => {
+  //   if(filter === " ") {
+  //     setData(newData);
+  //     return;
+  //   }
+  //   setData(newData.filter((person) => (person.firstName).toLowerCase().includes(filter.toLowerCase().trim()) || (person.lastName).toLowerCase().includes(filter.toLowerCase().trim())))
+  // };
+
+  // const entering = (event) => {
+  //   if (event.key === "Enter") {
+  //       event.preventDefault(); // Prevent default form submission
+  //       sendFilter(); // Call the filter function
+  //   }
+  // }
+
+  if (user) {
+    return (
+      <FlatList
+        style={styles.flatListed}
+        ListHeaderComponent={
+          <View style={styles.container}>
+            {/* change to use user club */}
+            <Header title="Directory" club={club} />
+            <View style={[styles.search, { borderColor: themeCol }]}>
+              <Pressable >
+                {/* onPress={sendFilter}  */}
+                <Search size={18} />
+              </Pressable>
+              <TextInput placeholder='Search' value={filter} onChangeText={(text) => { setFilter(text) }} clearButtonMode="always"></TextInput>
+              {/* onKeyPress={entering} */}
+            </View>
+            <View style={styles.separator} />
+          </View>
+        }
+        data={members}
+        keyExtractor={(item) => item.$id}
+        ListEmptyComponent={
+          <View style={[styles.viewed, { backgroundColor: "black" }]}>
+            <Text style={{ color: "white", fontWeight: "bold", fontSize: 20 }}>No students found :(</Text>
+          </View>
+        }
+        renderItem={({ item }) =>
+          <Pressable
+            onPress={() =>
+              router.push({
+                pathname: `/(tabs)/[name]`,
+                params: { name: item.name, office: item.office, status: item.status, imgsrc: item.imgsrc, phone: item.phone, email: item.email, classCol: item.classification, showEmail: item.showEmail, showPhone: item.showPhone }
+              })}>
+            <Card club={club} imgsrc={item.imgsrc} name={item.name} office={item.office} status={item.status} />
+          </Pressable>}>
+      </FlatList>
+    )
   }
 
-  if(user) {
-      return (
-    <FlatList
-      style={styles.flatListed}
-      ListHeaderComponent={
-        <View style={styles.container}>
-          {/* change to use user club */}
-          <Header title="Directory" club={club}/> 
-        <View style={[styles.search, {borderColor: themeCol}]}>
-        <Pressable onPress={sendFilter} >
-          <Search size={18} />
-        </Pressable>
-        <TextInput placeholder='Search' onKeyPress={entering} value={filter} onChangeText={(text) => {setFilter(text)}} clearButtonMode="always"></TextInput>
-        </View>
-        <View style={styles.separator} />
-      </View>
-      }
-      data={data}
-      keyExtractor={(item) => item.name}
-      ListEmptyComponent={
-        <View style={[styles.viewed, {backgroundColor: "black"}]}>
-          <Text style={{color: "white", fontWeight: "bold", fontSize: 20}}>No students found :(</Text>
-        </View>
-      }
-      renderItem={({item}) => 
-      <Pressable
-      onPress={() => 
-          router.push({
-            pathname: `/(tabs)/[name]`,
-            params: { name: item.firstName + " " + item.lastName, office: item.officer, status: item.relationshipStatus, imgsrc: item.imageURL, phone: item.phone, email: item.email, classCol: item.classification, showEmail: item.showEmail, showPhone: item.showPhone}
-          })}>
-        <Card club={club} imgsrc={item.imageURL} name={item.firstName + " " + item.lastName} office={item.officer} status={item.relationshipStatus}/> 
-      </Pressable>}>
-    </FlatList>
-)
-  }
-
-   return (
-    <View style={{height: "100%"}}>
+  return (
+    <View style={{ height: "100%" }}>
       <Header title="Directory" club="" />
-      <View style={[styles.container2, {height: "90%"}]}>
+      <View style={[styles.container2, { height: "90%" }]}>
 
         <Text style={styles.title}>You need to login to see this page.</Text>
 
