@@ -58,20 +58,20 @@ export default function Directory() {
   }, [loadMembers])
 
 
-  // const sendFilter = () => {
-  //   if(filter === " ") {
-  //     setData(newData);
-  //     return;
-  //   }
-  //   setData(newData.filter((person) => (person.firstName).toLowerCase().includes(filter.toLowerCase().trim()) || (person.lastName).toLowerCase().includes(filter.toLowerCase().trim())))
-  // };
+  const sendFilter = () => {
+    if(filter === " ") {
+      setData(newData);
+      return;
+    }
+    setData(newData.filter((person) => (person.firstName).toLowerCase().includes(filter.toLowerCase().trim()) || (person.lastName).toLowerCase().includes(filter.toLowerCase().trim())))
+  };
 
-  // const entering = (event) => {
-  //   if (event.key === "Enter") {
-  //       event.preventDefault(); // Prevent default form submission
-  //       sendFilter(); // Call the filter function
-  //   }
-  // }
+  const entering = (event) => {
+    if (event.key === "Enter") {
+        event.preventDefault(); // Prevent default form submission
+        sendFilter(); // Call the filter function
+    }
+  }
 
   if (user) {
     return (
@@ -87,7 +87,7 @@ export default function Directory() {
                 <Search size={18} />
               </Pressable>
               <TextInput placeholder='Search' value={filter} onChangeText={(text) => { setFilter(text) }} clearButtonMode="always"></TextInput>
-              {/* onKeyPress={entering} */}
+              onKeyPress={entering}
             </View>
             <View style={styles.separator} />
           </View>
