@@ -85,7 +85,7 @@ export default function AuthScreen() {
       
       <View style={styles.textHolder}>
 
-        <Text style={[styles.listingStyle, styles.welcomeTitle]}>Welcome,{user?.name}!</Text>
+        <Text style={[styles.listingStyle, styles.welcomeTitle]}>Welcome, {user?.name}!</Text>
         <Text style={[styles.listingStyle, ]}>Club: {member?.club}</Text>
           {/* name */}
         <Text style={[styles.listingStyle, ]}>Email: {member?.email}</Text>
