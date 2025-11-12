@@ -79,7 +79,7 @@ export default function AuthScreen() {
   // if logged in, show a simple profile + logout
   if (user) {
     return (
-      <View style={{height: "100%"}}>
+      <View style={{height: "100%", backgroundColor: "black"}}>
       <Header title="Profile" club={member?.club}/> {/* change to use user club*/}
     <View style={styles.container}>
       
@@ -100,7 +100,7 @@ export default function AuthScreen() {
 
   // if logged OUT, show login/register form
   return (
-    <ScrollView style={{height: "100%"}}>
+    <ScrollView style={{height: "100%", backgroundColor: "black"}}>
        <Header title={mode === "login" ? "Login" : "Create Account"} club="" />
     <View style={[styles.container, {paddingInline: "10%", paddingTop: "20%"}]}>
       {/* <Text style={[styles.title, {paddingTop: "40%"}]}>

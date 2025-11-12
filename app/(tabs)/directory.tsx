@@ -43,7 +43,7 @@ export default function Directory() {
 
 
   const loadMembers = useCallback(async () => {
-    let myData = await appWriteService.getMembers(member?.club);
+    let myData = await appWriteService.getMembers(member.club);
     setMembers(myData);
     setNewData(myData)
   }, [appWriteService]);
