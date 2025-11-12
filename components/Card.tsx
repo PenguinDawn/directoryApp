@@ -21,7 +21,7 @@ const Card = ({imgsrc, name, office, status, club}: CardProps) => {
             themeCol = {backgroundColor: "#31d287ff"}
         }
         else if (club === "ep") {
-            themeCol = {backgroundColor: "#f5f064ff"}
+            themeCol = {backgroundColor: "#b0a475ff"}
         }
         else {
             themeCol =  {backgroundColor: "#308fe2ff"}

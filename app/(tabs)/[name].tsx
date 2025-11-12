@@ -2,7 +2,8 @@ import Header from '@/components/Header';
 import { useAuth } from '@/hooks/AuthContext';
 import { router, useLocalSearchParams } from "expo-router";
 import { ChevronLeft, Heart } from 'lucide-react-native';
-import { Image, Linking, Pressable, StyleSheet, Text, View } from 'react-native';
+import { Image, Linking, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
+
 
 
 export default function NameScreen() {
@@ -20,7 +21,7 @@ export default function NameScreen() {
             themeCol = {backgroundColor: "#31d287ff"}
         }
         else if (club === "ep") {
-            themeCol = {backgroundColor: "#f5f064ff"}
+            themeCol = {backgroundColor: "#b0a475ff"}
         }
         else {
             themeCol =  {backgroundColor: "#308fe2ff"}
@@ -58,18 +59,15 @@ export default function NameScreen() {
     
 
     return (
-    <View style={styles.container}>
+    <ScrollView style={styles.container}>
       <Header title="Directory" club={club}/>
       <View style={[styles.container, {alignItems: "center"}]}>
-      <Pressable style={[styles.goBackDirectory]} onPress={() => router.navigate('/directory')}>
+          <Pressable style={[styles.goBackDirectory]} onPress={() => router.navigate('/directory')}>
+                <ChevronLeft size={32} style={styles.chevvy}/>
+                <Text style={styles.goBack}>Go Back To Directory</Text>
+          </Pressable>
       
-            <ChevronLeft size={32} style={styles.chevvy}/>
-            <Text style={styles.goBack}>Go Back To Directory</Text>
-
-      </Pressable>
-      
-      <View style={[styles.card, themeCol]}>
-
+      <View style={[styles.card, themeCol, {height: 370}]}>
         <View style={styles.imgStyle}>
             <Image style={styles.imgWidth} source={{ uri: imgsrc.toString()}} />
         </View>
@@ -96,13 +94,12 @@ export default function NameScreen() {
              {showEmail &&
              <Pressable onPress={openEmail}><Text style={styles.textStyle}>{email}</Text></Pressable>
              }
-        
         </View>
-    </View>
 
       </View>
-  
-    </View>
+
+      </View>
+    </ScrollView>
   );
 }
 
@@ -119,9 +116,8 @@ const styles = StyleSheet.create({
       backgroundColor: "white",
   },
     card: {
-        height: "80%",
-        width: "90%",
         // justifyContent: 'space-between',
+        width: "80%",
        fontFamily: 'sans-serif',
         fontWeight: 'semibold',
         padding: 15,
@@ -129,7 +125,6 @@ const styles = StyleSheet.create({
         flexDirection: 'column',
         gap: 5,
         marginInline: 'auto',
-        marginBottom: 25,
         borderRadius: 5,
     },
     listed: {
