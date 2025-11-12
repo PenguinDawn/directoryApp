@@ -90,17 +90,6 @@ export default function AuthScreen() {
           {/* name */}
         <Text style={[styles.listingStyle, ]}>Email: {member?.email}</Text>
         <Text style={[styles.listingStyle, ]}>Phone: {member?.phone}</Text>
-        <Text style={[styles.listingStyle, ]}>Club: {member?.club}</Text>
-          {/* password */}
-        <View style={styles.passwordContainer}>
-          <Text style={[styles.listingStyle]}>Password: 
-          {showing && (
-            <Text> {user.password}</Text>
-          )}
-          </Text>
-          {/* show password */}
-          <Pressable onPress={() => {setShowing(!showing)}} style={[styles.showButton]}>Show</Pressable>
-        </View>
       </View>
 
       <Pressable style={[styles.buttonHolder]} onPress={logout}>Logout</Pressable>

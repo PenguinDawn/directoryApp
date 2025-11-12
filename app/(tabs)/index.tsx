@@ -4,8 +4,9 @@ import { View } from '@/components/Themed';
 import { FlatList } from 'react-native';
 
 import Event from '@/components/Event';
+import { APPWRITE_CONFIG, createAppWriteService, EventRow } from '@/lib/appwrite';
 import { useRouter } from 'expo-router';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 
 
 
@@ -13,34 +14,25 @@ import { useEffect, useState } from 'react';
 export default function Home() {
 
   const router = useRouter();
-  const responses = getEvents();
+
+    const [newD, setNewD] = useState<EventRow[] | null>();
+    const [filter, setFilter] = useState("");
   
-
-
-   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await fetch('https://nyc.cloud.appwrite.io/v1/storage/buckets/68f8ed13003a261f4bcb/files/68f8efae0034f5b9beef/view?project=68f8ed01002593f33953&mode=admin');
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
-        }
-        const json = await response.json();
-        setData(json);
-        setNewData(json);
-      } catch (error) {
-      
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchData();
-  }, []); 
-
-  const [data, setData] = useState();
-  const [newData, setNewData] = useState();
-  const [loading, setLoading] = useState(true);
-
+    const appWriteService = useMemo(() => createAppWriteService(APPWRITE_CONFIG), [])
+    const [events, setEvents] = useState<EventRow[] | null>();
+  
+  
+    const loadEvents = useCallback(async () => {
+      let myData = await appWriteService.getEvents();
+      setEvents(myData);
+    }, [appWriteService]);
+  
+  
+    useEffect(() => {
+      loadEvents();
+    }, [loadEvents])
+  
+  
 
 // Title, Description, Date, Time, Club, Location
       return (
@@ -59,7 +51,7 @@ export default function Home() {
       <View>{}</View>
       </View>
       }
-      data={data}
+      data={events}
       keyExtractor={(item) => item.title}
       ListEmptyComponent={
         <View style={[styles.viewed, {backgroundColor: "black"}]}>
