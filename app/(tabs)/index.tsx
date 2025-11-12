@@ -4,7 +4,6 @@ import { View } from '@/components/Themed';
 import { FlatList } from 'react-native';
 
 import Event from '@/components/Event';
-import { getEvents } from '@/hooks/RowContext';
 import { useRouter } from 'expo-router';
 import { useEffect, useState } from 'react';
 
