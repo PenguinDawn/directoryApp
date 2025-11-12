@@ -45,6 +45,7 @@ export default function Directory() {
   const loadMembers = useCallback(async () => {
     let myData = await appWriteService.getMembers(member?.club);
     setMembers(myData);
+    setNewData(myData)
   }, [appWriteService]);
 
 
@@ -58,7 +59,7 @@ export default function Directory() {
       setNewData(members);
       return;
     }
-    setNewData(members.filter((person) => (person.name).toLowerCase().includes(filter.toLowerCase().trim())))
+    setNewData(members.filter((person) => person.name.toLowerCase().includes(filter.toLowerCase().trim())))
   };
 
   const entering = (event) => {
@@ -87,7 +88,7 @@ export default function Directory() {
             <View style={styles.separator} />
           </View>
         }
-        data={members}
+        data={newData}
         keyExtractor={(item) => item.$id}
         ListEmptyComponent={
           <View style={[styles.viewed, { backgroundColor: "black" }]}>

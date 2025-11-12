@@ -12,10 +12,11 @@ interface CardProps {
     club: string | undefined,
 }
 
+
 const Event = ({title, description, date, location, time, club}: CardProps) => {
       let themeCol;
         if (club === "xbx") {
-            themeCol = {backgroundColor: "#6c27e3ff"}
+            themeCol = {backgroundColor: "#320769ff"}
         }
         else if (club === "pka") {
             themeCol = {backgroundColor: "#e01919ff"}
@@ -24,7 +25,7 @@ const Event = ({title, description, date, location, time, club}: CardProps) => {
             themeCol = {backgroundColor: "#31d287ff"}
         }
         else if (club === "ep") {
-            themeCol = {backgroundColor: "#f5f064ff"}
+            themeCol = {backgroundColor: "#b0a475ff"}
         }
         else if (club === "zxd") {
             themeCol =  {backgroundColor: "#308fe2ff"}
@@ -43,7 +44,7 @@ const Event = ({title, description, date, location, time, club}: CardProps) => {
             <Text style={styles.textStyle}><Text style={styles.quest}>Where:</Text> {location}</Text>
             </View>
             <View>
-                <Text style={styles.clubStyle}>{club}</Text>
+                <Text style={styles.clubStyle}>{club.toUpperCase()}</Text>
             </View>
         </View>
             <View style={styles.singleLine}>
